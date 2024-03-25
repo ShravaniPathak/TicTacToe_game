@@ -68,31 +68,43 @@ class TicTacToe(App):
         else:
             instance.text = "O"
             self.update.text = f"It is now {self.user2_name}'s turn"
-        #Check if the game has been won
-        self.ticTacToe_condition()
         #Disable the clicked button
         instance.disabled = True
+        #Check if the game has been won
+        self.ticTacToe_condition()
 
     def name_entered_1(self, instance, value):
         #Assign name of first user
         self.user1_name = value
+        #Check if game can be started
+        if self.user1_name and self.user2_name:
+            self.update.text="You can now start the game by clicking on the buttons"
 
     def name_entered_2(self, instance, value):
         #Assign name of second user
         self.user2_name = value
+        #Check if game can be started
+        if self.user1_name and self.user2_name:
+            self.update.text="You can now start the game by clicking on the buttons"
 
     def ticTacToe_condition(self):
         # Check rows and columns for a win
         for i in range(3):
             if self.buttons_arr[i][0].text == self.buttons_arr[i][1].text == self.buttons_arr[i][2].text and self.buttons_arr[i][0].text != "":
                 self.win()
+                self.finish_game()
+                break
             if self.buttons_arr[0][i].text == self.buttons_arr[1][i].text == self.buttons_arr[2][i].text and self.buttons_arr[0][i].text != "":
                 self.win()
+                self.finish_game()
+                break
         # Check diagonals for a win
         if self.buttons_arr[0][0].text == self.buttons_arr[1][1].text == self.buttons_arr[2][2].text and self.buttons_arr[0][0].text != "":
             self.win()
+            self.finish_game()
         elif self.buttons_arr[0][2].text == self.buttons_arr[1][1].text == self.buttons_arr[2][0].text and self.buttons_arr[0][2].text != "":
             self.win()
+            self.finish_game()
         # Check for a draw
         if self.user_number == 9:
             self.update.text = "It's a draw! The game has finished!"
@@ -116,6 +128,7 @@ class TicTacToe(App):
                 self.buttons_arr[row][column].text = ""
                 #Enable buttons
                 self.buttons_arr[row][column].disabled = False
+                print(f"Button at {row} {column} = {self.buttons_arr[row][column].disabled}")
         #Clear the text inputs
         self.first_user.text = ""
         self.second_user.text = ""
